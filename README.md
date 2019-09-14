@@ -1,5 +1,9 @@
 In the project directory, you can run:
 
+hosted on http://zion-unsplash.s3-website-us-east-1.amazonaws.com/
+
+Note: unsplash API limits 50 request/hour in development environment(use wisely)
+
 ### `npm start`
 
 Runs the app in the development mode.<br>
@@ -28,4 +32,6 @@ Unsplash app with the following features:
 - [x] Readme guide
 - [x] Good UI design (use your creativity for better visuals)
 - [x] That you have considered failure/error states (No user or Photo available)
+
+
 
