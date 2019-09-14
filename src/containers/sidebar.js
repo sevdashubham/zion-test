@@ -19,23 +19,20 @@ class Sidebar extends React.Component {
 
     handleChange(e) {
         e.preventDefault();
-        this.setState({query: e.target.value});
+        this.setState({query: e.target.value, listEmpty: false});
     }
 
     handleSubmit(e) {
         e.preventDefault();
         const {query} = this.state;
         userService.searchUsers(query, 1, 30).then(response => {
-            console.log(response);
             if (response.data.results.length > 0) {
-                this.setState({users: response.data.results, errorSearch: ''})
-
+                this.setState({users: response.data.results, errorSearch: '', listEmpty: false})
             } else {
-                this.setState({listEmpty: true, users: []})
+                this.setState({listEmpty: true, users: [], errorSearch: 'the list is empty'})
             }
-
         }).catch(error => {
-            this.setState({errorSearch: 'failed to fetch results',  users: []});
+            this.setState({errorSearch: 'failed to fetch results',  users: [], listEmpty: false});
             console.log(error);
         })
     }

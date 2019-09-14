@@ -22,7 +22,7 @@ class App extends React.Component {
         userService.getUserCollection(username).then(response => {
             if (response.data.length > 0) {
                 console.log(response.data);
-                this.setState({username: username, imageList: response.data});
+                this.setState({username: username, imageList: response.data, emptyStateImages: ''});
             } else {
                 this.setState({emptyState:  `This user doesn't seem to have added any images`, imageList: []});
             }
@@ -30,15 +30,13 @@ class App extends React.Component {
             if (error.response.data) {
                 this.setState({emptyStateImages: error.response.data ? error.response.data : 'Internal server error', imageList: []});
             }
-            this.setState({emptyStateImages: error.response.data, imageList: []});
-            console.log(error);
         })
     }
 
     fetchUserProfile(username) {
         userService.getUserProfie(username).then(responseProfile => {
             if (responseProfile.data) {
-                this.setState({userProfile: responseProfile.data});
+                this.setState({userProfile: responseProfile.data, emptyStateProfile: ''});
             } else {
                 this.setState({emptyStateProfile:  `This user doesn't seem to have a profile`, userProfile:{}});
             }
