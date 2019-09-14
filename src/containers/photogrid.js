@@ -33,20 +33,22 @@ class PhotoGrid extends React.Component {
     }
 
     render() {
-        const {imageList} = this.props;
+        const {imageList, emptyStateImages} = this.props;
 
         return (
             <div>
             <div className="product-container">
                 <div className="product-area-container">
                     <div className="product-area">
-                        <ul className="product-list">
+                        {imageList.length ? <ul className="product-list">
                             {imageList.map((image, index) => (
                                 <li className="product-list-item">
                                     <PhotoCard src={image.urls.regular}/>
                                 </li>
                             ))}
-                        </ul>
+                        </ul>: <div style={{padding: 40}}>
+                            <h4>{emptyStateImages ? emptyStateImages : `Click on a user to get his collection`}</h4>
+                        </div>}
                     </div>
                 </div>
             </div>

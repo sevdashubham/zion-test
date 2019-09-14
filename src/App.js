@@ -10,7 +10,9 @@ class App extends React.Component {
     state = {
         username: '',
         userProfile: {},
-        imageList: []
+        imageList: [],
+        emptyStateImages: '',
+        emptyStateProfile: ''
     };
 
     fetchUserCollection = this.fetchUserCollection.bind(this);
@@ -18,12 +20,17 @@ class App extends React.Component {
 
     fetchUserCollection(username) {
         userService.getUserCollection(username).then(response => {
-            if (response) {
+            if (response.data.length > 0) {
                 console.log(response.data);
                 this.setState({username: username, imageList: response.data});
-
+            } else {
+                this.setState({emptyState:  `This user doesn't seem to have added any images`});
             }
         }).catch(error => {
+            if (error.response.data) {
+                this.setState({emptyStateImages: error.response.data ? error.response.data : 'Internal server error'});
+            }
+            this.setState({emptyStateImages: error.response.data});
             console.log(error);
         })
     }
@@ -31,27 +38,30 @@ class App extends React.Component {
     fetchUserProfile(username) {
         userService.getUserProfie(username).then(responseProfile => {
             if (responseProfile.data) {
-                console.log(responseProfile.data);
                 this.setState({userProfile: responseProfile.data});
+            } else {
+                this.setState({emptyStateProfile:  `This user doesn't seem to have a profile`});
             }
         }).catch(error => {
-            console.log(error);
+            if (error.response.data) {
+                this.setState({emptyStateProfile: error.response.data ? error.response.data : 'Internal server error'});
+            }
         });
     }
 
     render() {
-        const {imageList, userProfile} = this.state;
+        const {imageList, userProfile, emptyStateImages, emptyStateProfile} = this.state;
         return (
             <div className="App">
                 <div>
                     <div className="side-bar">
-                        <Sidebar fetchUserCollection={this.fetchUserCollection} fetchUserProfile={this.fetchUserProfile}/>
+                        <Sidebar fetchUserCollection={this.fetchUserCollection} fetchUserProfile={this.fetchUserProfile} emptyStateImages={emptyStateImages}/>
                     </div>
                     <div className="main">
-                        <PhotoGrid imageList={imageList}/>
+                        <PhotoGrid imageList={imageList} emptyStateImages={emptyStateImages}/>
                     </div>
                 </div>
-                <Footer userProfile={userProfile}/>
+                <Footer userProfile={userProfile} emptyStateProfile={emptyStateProfile}/>
             </div>
         );
     }

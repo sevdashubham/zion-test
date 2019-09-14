@@ -9,7 +9,8 @@ class Sidebar extends React.Component {
 
     state = {
         query: '',
-        users: []
+        users: [],
+        listEmpty: false
     };
 
     handleChange = this.handleChange.bind(this);
@@ -25,11 +26,16 @@ class Sidebar extends React.Component {
         e.preventDefault();
         const {query} = this.state;
         userService.searchUsers(query, 1, 30).then(response => {
-            if (response.data) {
-                this.setState({users: response.data.results})
+            console.log(response);
+            if (response.data.results.length > 0) {
+                this.setState({users: response.data.results, errorSearch: ''})
+
+            } else {
+                this.setState({listEmpty: true, users: []})
             }
-            console.log(response)
+
         }).catch(error => {
+            this.setState({errorSearch: 'failed to fetch results'});
             console.log(error);
         })
     }
@@ -40,7 +46,7 @@ class Sidebar extends React.Component {
     }
 
     render() {
-        const {users, query} = this.state;
+        const {users, query, listEmpty, errorSearch} = this.state;
 
         return (
             <div style={{paddingBottom: 50}}>
@@ -56,7 +62,7 @@ class Sidebar extends React.Component {
                     </div>
                 </div>
                 <div className="generic_feature_list">
-                    <ul>
+                    {users.length > 0 && <ul>
                     {users.map((user) => {
                         return (
                                 <li onClick={() => this.handleClick(user.username)} >
@@ -64,8 +70,14 @@ class Sidebar extends React.Component {
                                 </li>
                         )
                     })}
-                    </ul>
+                    </ul>}
                 </div>
+                {listEmpty &&<div>
+                    <h5>{`unable to find users with keyword ${query}`}</h5>
+                </div>}
+                {errorSearch &&<div>
+                    <h5>{errorSearch}</h5>
+                </div>}
             </div>
         );
     }
