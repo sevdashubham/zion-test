@@ -24,13 +24,13 @@ class App extends React.Component {
                 console.log(response.data);
                 this.setState({username: username, imageList: response.data});
             } else {
-                this.setState({emptyState:  `This user doesn't seem to have added any images`});
+                this.setState({emptyState:  `This user doesn't seem to have added any images`, imageList: []});
             }
         }).catch(error => {
             if (error.response.data) {
-                this.setState({emptyStateImages: error.response.data ? error.response.data : 'Internal server error'});
+                this.setState({emptyStateImages: error.response.data ? error.response.data : 'Internal server error', imageList: []});
             }
-            this.setState({emptyStateImages: error.response.data});
+            this.setState({emptyStateImages: error.response.data, imageList: []});
             console.log(error);
         })
     }
@@ -40,11 +40,11 @@ class App extends React.Component {
             if (responseProfile.data) {
                 this.setState({userProfile: responseProfile.data});
             } else {
-                this.setState({emptyStateProfile:  `This user doesn't seem to have a profile`});
+                this.setState({emptyStateProfile:  `This user doesn't seem to have a profile`, userProfile:{}});
             }
         }).catch(error => {
             if (error.response.data) {
-                this.setState({emptyStateProfile: error.response.data ? error.response.data : 'Internal server error'});
+                this.setState({emptyStateProfile: error.response.data ? error.response.data : 'Internal server error', userProfile: {}});
             }
         });
     }
