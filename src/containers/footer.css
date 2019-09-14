@@ -1,0 +1,10 @@
+li .social-media-icons {
+    height: 36px;
+    width: 36px;
+    padding: 3px;
+    margin: 2px 5px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    display: inline;
+}

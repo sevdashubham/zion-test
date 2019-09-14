@@ -1,4 +1,6 @@
 import React from "react";
+import PhotoCard from "../components/photoCard";
+import './photogrid.css';
 
 class PhotoGrid extends React.Component {
 
@@ -31,11 +33,23 @@ class PhotoGrid extends React.Component {
     }
 
     render() {
-        const {step, text, isRender} = this.state;
+        const {imageList} = this.props;
 
         return (
             <div>
-                photogrid
+            <div className="product-container">
+                <div className="product-area-container">
+                    <div className="product-area">
+                        <ul className="product-list">
+                            {imageList.map((image, index) => (
+                                <li className="product-list-item">
+                                    <PhotoCard src={image.urls.regular}/>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
             </div>
         );
     }
