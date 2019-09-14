@@ -35,7 +35,7 @@ class Sidebar extends React.Component {
             }
 
         }).catch(error => {
-            this.setState({errorSearch: 'failed to fetch results'});
+            this.setState({errorSearch: 'failed to fetch results',  users: []});
             console.log(error);
         })
     }
